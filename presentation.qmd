@@ -12,7 +12,7 @@ format:
 ## Inhalt
 
 1. **Theorie & Logik:** Wie "denkt" der Algorithmus?
-2. **Anwendungsgebiet:** Klickraten-Vorhersage (CTR)
+2. **Anwendungsgebiet:** Preisprognosen (RAM-Beispiel)
 3. **Live-Coding:** Demo mit Scikit-Learn
 
 ---
@@ -21,7 +21,7 @@ format:
 
 **Das Prinzip: Sequentielles Lernen aus Fehlern**
 
-Gradient Boosting ist kein einzelnes, massives Modell, sondern ein **Ensemble** aus vielen kleinen, schwachen Modellen (Entscheidungsbäumen).
+Gradient Boosting ist kein einzelnes, massives Modell, sondern ein **Ensemble** aus vielen kleinen Modellen (Entscheidungsbäumen).
 
 * Jeder neue Baum wird trainiert, um die **Fehler (Residuen)** der vorherigen Bäume zu korrigieren.
 * Das Team arbeitet nacheinander, nicht gleichzeitig.
@@ -30,7 +30,7 @@ Gradient Boosting ist kein einzelnes, massives Modell, sondern ein **Ensemble** 
 
 ## Die Minigolf-Analogie ⛳
 
-* **Schlag 1 (Start):** Du schlägst in Richtung Loch, verfehlst aber um 2 Meter. *(Das ist der erste Fehler)*
+* **Schlag 1 (Start):** Du schlägst in Richtung Loch, verfehlst aber um 2 Meter. *(Erster Fehler)*
 * **Schlag 2 (Baum 1):** Dein Ziel ist nicht mehr das Loch, sondern exakt diese 2 Meter zu überwinden. Du verfehlst um 20 cm.
 * **Schlag 3 (Baum 2):** Ein neuer Spieler korrigiert nur noch die 20 cm.
 
@@ -40,47 +40,47 @@ Gradient Boosting ist kein einzelnes, massives Modell, sondern ein **Ensemble** 
 
 ## Warum ist es der "Goldstandard"? 🏆
 
-Warum gewinnt dieser Algorithmus fast jeden Wettbewerb (Kaggle etc.)?
-
-- **Hohe Präzision:** Kann extrem komplexe, nicht-lineare Muster erkennen.
-- **Robustheit:** Kommt sehr gut mit Ausreißern und fehlenden Werten klar.
+- **Hohe Präzision:** Erkennt komplexe, nicht-lineare Muster.
+- **Robustheit:** Kommt gut mit Ausreißern klar.
 - **Flexibilität:** Keine aufwändige Daten-Skalierung nötig.
-- Es übertrifft Deep Learning bei strukturieren Tabellen-Daten (Tabular Data) fast immer!
+- Übertrifft Deep Learning bei **tabellarischen Daten** fast immer!
 
 ---
 
-## 2. Anwendungsgebiet: Online-Werbung
+## 2. Praxisbeispiel: RAM-Preise 🖥️
 
-**Click-Through-Rate (CTR) Vorhersage**
+Wie gewichtet der Algorithmus die Hardware-Specs?
 
-Wird ein Nutzer auf diese Anzeige klicken? (Ja/Nein oder Wahrscheinlichkeit)
+- **Kapazität:** Linearer Einfluss (mehr GB = teurer).
+- **DDR-Generation:** Sprunghafte Preisänderung (DDR5 vs. DDR4).
+- **Interaktion:** Ein hoher Takt ist bei DDR5 Standard, bei DDR4 ein Extremfall.
 
-- **Daten:** Tageszeit, Gerät (Mobile/Desktop), Nutzerhistorie, Anzeigentyp.
-- **Die Stärke von Boosting:** Es findet versteckte Kombinationen automatisch (z.B. "Junge Nutzer" + "Abends" + "Mobile" + "Gaming-Werbung").
-- **Realität:** Jede Millisekunde laufen solche Gradient Boosting Modelle im Hintergrund, wenn wir eine Webseite öffnen.
+**Gradient Boosting erkennt diese Kombinationen automatisch.**
 
 ---
 
-## 3. Live-Coding Demo 💻
+## Modell-Training & Vorhersage
 
-Wir nutzen den `HistGradientBoostingRegressor` aus `scikit-learn`.
+In diesem Schritt trainieren wir den Regressor und sagen den Preis für ein neues Modul voraus:
 
-```{.python filename="demo.py" code-line-numbers="|1,2,3,4|10,11,12|14,15|18,19|"}
+```{.python code-line-numbers="|1-11|13-14|16-20"}
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import HistGradientBoostingRegressor
-from sklearn.metrics import r2_score
 
-# 1. Daten laden (Hier: Synthetische CTR-Daten)
-# X_train, X_test, y_train, y_test = ...
+data = {
+    'gb': [8, 16, 32, 64, 8, 16, 32, 64, 16, 32],
+    'mhz': [2400, 3200, 3600, 5200, 2666, 3600, 6000, 6400, 3200, 5600],
+    'ddr': [4, 4, 4, 5, 4, 4, 5, 5, 4, 5],
+    'rgb': [0, 0, 1, 1, 0, 1, 1, 1, 0, 1],
+    'preis': [35, 55, 95, 210, 38, 75, 140, 280, 60, 125]
+}
+df = pd.DataFrame(data)
+X, y = df.drop('preis', axis=1), df['preis']
 
-# 2. Modell initialisieren
-# max_iter = Anzahl der Bäume (Korrekturschritte)
-model = HistGradientBoostingRegressor(max_iter=100, learning_rate=0.1)
+model = HistGradientBoostingRegressor(max_iter=100).fit(X, y)
 
-# 3. Training: Modell lernt aus den Daten
-model.fit(X_train, y_train)
+neuer_ram = [[32, 5200, 5, 1]]
+preis = model.predict(neuer_ram)
 
-# 4. Vorhersage & Evaluierung
-y_pred = model.predict(X_test)
-print(f"Modell-Genauigkeit (R²): {r2_score(y_test, y_pred)}")
+print(f"Prognostizierter Preis: {preis[0]:.2f} €")
+```

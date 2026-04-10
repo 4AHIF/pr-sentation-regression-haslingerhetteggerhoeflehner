@@ -12,6 +12,9 @@
 # Docs
 docs/
 
+# Venv
+venv/
+
 # Logs
 
 *.log
