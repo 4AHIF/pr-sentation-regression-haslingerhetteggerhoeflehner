@@ -1,0 +1,86 @@
+---
+title: "Gradient Boosting"
+subtitle: "Der Goldstandard im Machine Learning (Gruppe 9)"
+format: 
+  revealjs:
+    theme: default
+    slide-number: true
+    transition: slide
+    chalkboard: true
+---
+
+## Inhalt
+
+1. **Theorie & Logik:** Wie "denkt" der Algorithmus?
+2. **Anwendungsgebiet:** Klickraten-Vorhersage (CTR)
+3. **Live-Coding:** Demo mit Scikit-Learn
+
+---
+
+## 1. Theorie & Logik {auto-animate="true"}
+
+**Das Prinzip: Sequentielles Lernen aus Fehlern**
+
+Gradient Boosting ist kein einzelnes, massives Modell, sondern ein **Ensemble** aus vielen kleinen, schwachen Modellen (Entscheidungsbäumen).
+
+* Jeder neue Baum wird trainiert, um die **Fehler (Residuen)** der vorherigen Bäume zu korrigieren.
+* Das Team arbeitet nacheinander, nicht gleichzeitig.
+
+---
+
+## Die Minigolf-Analogie ⛳
+
+* **Schlag 1 (Start):** Du schlägst in Richtung Loch, verfehlst aber um 2 Meter. *(Das ist der erste Fehler)*
+* **Schlag 2 (Baum 1):** Dein Ziel ist nicht mehr das Loch, sondern exakt diese 2 Meter zu überwinden. Du verfehlst um 20 cm.
+* **Schlag 3 (Baum 2):** Ein neuer Spieler korrigiert nur noch die 20 cm.
+
+**Ergebnis:** Die Summe aller kleinen Korrekturen führt exakt ins Ziel!
+
+---
+
+## Warum ist es der "Goldstandard"? 🏆
+
+Warum gewinnt dieser Algorithmus fast jeden Wettbewerb (Kaggle etc.)?
+
+- **Hohe Präzision:** Kann extrem komplexe, nicht-lineare Muster erkennen.
+- **Robustheit:** Kommt sehr gut mit Ausreißern und fehlenden Werten klar.
+- **Flexibilität:** Keine aufwändige Daten-Skalierung nötig.
+- Es übertrifft Deep Learning bei strukturieren Tabellen-Daten (Tabular Data) fast immer!
+
+---
+
+## 2. Anwendungsgebiet: Online-Werbung
+
+**Click-Through-Rate (CTR) Vorhersage**
+
+Wird ein Nutzer auf diese Anzeige klicken? (Ja/Nein oder Wahrscheinlichkeit)
+
+- **Daten:** Tageszeit, Gerät (Mobile/Desktop), Nutzerhistorie, Anzeigentyp.
+- **Die Stärke von Boosting:** Es findet versteckte Kombinationen automatisch (z.B. "Junge Nutzer" + "Abends" + "Mobile" + "Gaming-Werbung").
+- **Realität:** Jede Millisekunde laufen solche Gradient Boosting Modelle im Hintergrund, wenn wir eine Webseite öffnen.
+
+---
+
+## 3. Live-Coding Demo 💻
+
+Wir nutzen den `HistGradientBoostingRegressor` aus `scikit-learn`.
+
+```{.python filename="demo.py" code-line-numbers="|1,2,3,4|10,11,12|14,15|18,19|"}
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.metrics import r2_score
+
+# 1. Daten laden (Hier: Synthetische CTR-Daten)
+# X_train, X_test, y_train, y_test = ...
+
+# 2. Modell initialisieren
+# max_iter = Anzahl der Bäume (Korrekturschritte)
+model = HistGradientBoostingRegressor(max_iter=100, learning_rate=0.1)
+
+# 3. Training: Modell lernt aus den Daten
+model.fit(X_train, y_train)
+
+# 4. Vorhersage & Evaluierung
+y_pred = model.predict(X_test)
+print(f"Modell-Genauigkeit (R²): {r2_score(y_test, y_pred)}")
