@@ -11,34 +11,54 @@ format:
 ## 1. Theorie & Logik
 
 ### Das Prinzip: Sequentielles Lernen
+1. **Namensbedeutung & Prinzip**
+2. **Theorie & Logik**
+3. **Anwendungsgebiet:** Preisprognosen (RAM-Beispiel)
+4. **Live-Coding:** Demo mit Scikit-Learn
 
 Gradient Boosting ist ein **Ensemble-Verfahren**. Statt eines komplexen Modells nutzen wir viele "Weak Learners" (einfache Entscheidungsbäume).
 
-::: {.columns}
-::: {.column width="60%"}
-* **Iterativ:** Jeder Baum lernt aus den Fehlern des Vorgängers.
-* **Korrektur:** Fokus auf die **Residuen** (Reste).
-* **Teamwork:** Die finale Vorhersage ist die Summe aller Einzelschritte.
-:::
+## Namensbedeutung & Prinzip
+
+- **Gradient:** Gradient Descent (Minimierung des Fehlers)
+- **Boosting:** Fehlerkorrektur durch sequentielle Modelle
+
+**Gradient Descent**: 
+
+- Minimiert den Fehler, indem es in Richtung des steilsten Abstiegs geht.
+$$
+\theta_{t+1} = \theta_t - \eta \cdot \nabla_\theta L(\theta)
+$$
+
+## <img src="https://editor.analyticsvidhya.com/uploads/26393ezgif.com-gif-maker%20(5).gif" width="1000" height="760">
+
+## Theorie & Logik {auto-animate="true"}
 
 ::: {.column width="40%"}
 
-:::
-:::
+Ensemble aus vielen kleinen Modellen (Entscheidungsbäumen).
+
+* Residuen der vorherigen Bäume werden im nächsten Baum korrigiert.
+* Iterativ
 
 ---
 
-## Die Minigolf-Analogie ⛳
+## Anschauliche Erklärung: Golfen
 
-Stell dir vor, du spielst Minigolf, aber nach jedem Schlag übernimmt ein neuer Spieler exakt dort, wo der Ball liegen geblieben ist:
+* **Schlag 1 (Start):** Loch verfehlt um 2 Meter.
+* **Schlag 2 (Baum 1):** Ein neuer Spieler korrigiert die 2 Meter, aber verfehlt um 20 cm.
+* **Schlag 3 (Baum 2):** Ein neuer Spieler korrigiert nur noch die 20 cm.
 
-| Phase | Aktion | Ziel |
-|-------|--------|------|
-| **Start** | Erster Schlag | Das Loch (Globaler Mittelwert) |
-| **Baum 1** | Korrektur | Die verbleibenden 2 Meter |
-| **Baum 2** | Feinjustierung | Die letzten 20 Zentimeter |
+**Ergebnis:** Ball ist letztendlich im Loch.
 
-**Das Ergebnis:** Die Summe kleiner, gezielter Korrekturen führt präzise ins Ziel.
+---
+
+## Warum Goldstandard?
+
+- **Hohe Präzision:** Erkennt komplexe, nicht-lineare Muster.
+- **Robustheit:** Ausreißermanagement durch sequentielle Fehlerkorrektur.
+- **Flexibilität:** Keine aufwändige Daten-Skalierung nötig.
+- Übertrifft Deep Learning bei **tabellarischen Daten** fast immer!
 
 ---
 
@@ -54,6 +74,10 @@ $$F_0(x) = \arg\min_\gamma \sum_{i=1}^n L(y_i, \gamma)$$
 ### 2. Der iterative Schritt
 Für jeden Baum $m$ berechnen wir den **negativen Gradienten**:
 $$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F(x)=F_{m-1}(x)}$$
+
+---
+
+## Praxisbeispiel: RAM-Preise
 
 
 
