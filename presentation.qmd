@@ -34,8 +34,6 @@ $$
 
 ## Theorie & Logik {auto-animate="true"}
 
-::: {.column width="40%"}
-
 Ensemble aus vielen kleinen Modellen (Entscheidungsbäumen).
 
 * Residuen der vorherigen Bäume werden im nächsten Baum korrigiert.
@@ -74,14 +72,6 @@ $$F_0(x) = \arg\min_\gamma \sum_{i=1}^n L(y_i, \gamma)$$
 ### 2. Der iterative Schritt
 Für jeden Baum $m$ berechnen wir den **negativen Gradienten**:
 $$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F(x)=F_{m-1}(x)}$$
-
----
-
-## Praxisbeispiel: RAM-Preise
-
-
-
----
 
 ## Warum "Goldstandard"? 🏆
 
