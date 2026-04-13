@@ -1,72 +1,96 @@
 ---
 title: "Gradient Boosting"
-subtitle: "Der Goldstandard im Machine Learning (Gruppe 9)"
+subtitle: "Der Goldstandard im Machine Learning"
+author: "Gruppe 9"
 format: 
   revealjs:
-    theme: default
+    theme: sky  # Oder 'simple', 'moon', 'night', 'serif'
     slide-number: true
-    transition: slide
-    chalkboard: true
 ---
 
-## Inhalt
+## 1. Theorie & Logik
 
-1. **Theorie & Logik:** Wie "denkt" der Algorithmus?
-2. **Anwendungsgebiet:** Preisprognosen (RAM-Beispiel)
-3. **Live-Coding:** Demo mit Scikit-Learn
+### Das Prinzip: Sequentielles Lernen
 
----
+Gradient Boosting ist ein **Ensemble-Verfahren**. Statt eines komplexen Modells nutzen wir viele "Weak Learners" (einfache Entscheidungsbäume).
 
-## 1. Theorie & Logik {auto-animate="true"}
+::: {.columns}
+::: {.column width="60%"}
+* **Iterativ:** Jeder Baum lernt aus den Fehlern des Vorgängers.
+* **Korrektur:** Fokus auf die **Residuen** (Reste).
+* **Teamwork:** Die finale Vorhersage ist die Summe aller Einzelschritte.
+:::
 
-**Das Prinzip: Sequentielles Lernen aus Fehlern**
+::: {.column width="40%"}
 
-Gradient Boosting ist kein einzelnes, massives Modell, sondern ein **Ensemble** aus vielen kleinen Modellen (Entscheidungsbäumen).
-
-* Jeder neue Baum wird trainiert, um die **Fehler (Residuen)** der vorherigen Bäume zu korrigieren.
-* Das Team arbeitet nacheinander, nicht gleichzeitig.
+:::
+:::
 
 ---
 
 ## Die Minigolf-Analogie ⛳
 
-* **Schlag 1 (Start):** Du schlägst in Richtung Loch, verfehlst aber um 2 Meter. *(Erster Fehler)*
-* **Schlag 2 (Baum 1):** Dein Ziel ist nicht mehr das Loch, sondern exakt diese 2 Meter zu überwinden. Du verfehlst um 20 cm.
-* **Schlag 3 (Baum 2):** Ein neuer Spieler korrigiert nur noch die 20 cm.
+Stell dir vor, du spielst Minigolf, aber nach jedem Schlag übernimmt ein neuer Spieler exakt dort, wo der Ball liegen geblieben ist:
 
-**Ergebnis:** Die Summe aller kleinen Korrekturen führt exakt ins Ziel!
+| Phase | Aktion | Ziel |
+|-------|--------|------|
+| **Start** | Erster Schlag | Das Loch (Globaler Mittelwert) |
+| **Baum 1** | Korrektur | Die verbleibenden 2 Meter |
+| **Baum 2** | Feinjustierung | Die letzten 20 Zentimeter |
 
----
-
-## Warum ist es der "Goldstandard"? 🏆
-
-- **Hohe Präzision:** Erkennt komplexe, nicht-lineare Muster.
-- **Robustheit:** Kommt gut mit Ausreißern klar.
-- **Flexibilität:** Keine aufwändige Daten-Skalierung nötig.
-- Übertrifft Deep Learning bei **tabellarischen Daten** fast immer!
+**Das Ergebnis:** Die Summe kleiner, gezielter Korrekturen führt präzise ins Ziel.
 
 ---
 
-## 2. Praxisbeispiel: RAM-Preise 🖥️
+## 1.1 Die Mathematik
+Wir minimieren eine **Verlustfunktion** $L(y, F(x))$ durch Gradientenabstieg im Funktionsraum.
 
-Wie gewichtet der Algorithmus die Hardware-Specs?
-
-- **Kapazität:** Linearer Einfluss (mehr GB = teurer).
-- **DDR-Generation:** Sprunghafte Preisänderung (DDR5 vs. DDR4).
-- **Interaktion:** Ein hoher Takt ist bei DDR5 Standard, bei DDR4 ein Extremfall.
-
-**Gradient Boosting erkennt diese Kombinationen automatisch.**
+### 1. Initialisierung
+Start mit dem Mittelwert:
+$$F_0(x) = \arg\min_\gamma \sum_{i=1}^n L(y_i, \gamma)$$
 
 ---
 
-## Modell-Training & Vorhersage
+### 2. Der iterative Schritt
+Für jeden Baum $m$ berechnen wir den **negativen Gradienten**:
+$$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F(x)=F_{m-1}(x)}$$
 
-In diesem Schritt trainieren wir den Regressor und sagen den Preis für ein neues Modul voraus:
 
-```{.python code-line-numbers="|1-11|13-14|16-20"}
+
+---
+
+## Warum "Goldstandard"? 🏆
+
+### Präzision
+Erkennt hochkomplexe, nicht-lineare Zusammenhänge, die linearen Modellen entgehen.
+
+### Robustheit
+Sehr unempfindlich gegenüber Ausreißern und fehlenden Werten durch das Baum-Design.
+
+### Effizienz
+Kein Skalieren von Daten (Normalization/Scaling) nötig. Ideal für tabellarische Daten.
+
+---
+
+## 2. Praxis: RAM-Preise 🖥️
+
+Wie lernt das Modell die Preisgestaltung?
+
+* **Kapazität:** Basis-Preis-Treiber (8GB vs 64GB).
+* **Generation:** Strukturelle Brüche (DDR4 vs DDR5).
+* **Features:** Interaktionseffekte (RGB-Beleuchtung + High-End Takt).
+
+> **Insight:** Während lineare Regression bei "Sprüngen" (DDR4 -> DDR5) scheitert, erkennt Boosting diese Schwellenwerte perfekt.
+
+---
+
+## 3. Live-Coding: Scikit-Learn
+
+```python
 import pandas as pd
 from sklearn.ensemble import HistGradientBoostingRegressor
 
+# Unsere Hardware-Datenbank
 data = {
     'gb': [8, 16, 32, 64, 8, 16, 32, 64, 16, 32],
     'mhz': [2400, 3200, 3600, 5200, 2666, 3600, 6000, 6400, 3200, 5600],
@@ -77,10 +101,11 @@ data = {
 df = pd.DataFrame(data)
 X, y = df.drop('preis', axis=1), df['preis']
 
+# Training
 model = HistGradientBoostingRegressor(max_iter=100).fit(X, y)
 
+# Prognose
 neuer_ram = [[32, 5200, 5, 1]]
 preis = model.predict(neuer_ram)
-
-print(f"Prognostizierter Preis: {preis[0]:.2f} €")
+print(f"Preis: {preis[0]:.2f}€")
 ```

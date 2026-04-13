@@ -8,12 +8,14 @@
 # Quarto
 
 .quarto/
+presentation_files/
 
 # Docs
 docs/
 
 # Venv
 venv/
+.venv/
 
 # Logs
 
