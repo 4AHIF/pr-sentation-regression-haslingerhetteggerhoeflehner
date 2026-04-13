@@ -11,43 +11,58 @@ format:
 
 ## Inhalt
 
-1. **Theorie & Logik:** Wie "denkt" der Algorithmus?
-2. **Anwendungsgebiet:** Preisprognosen (RAM-Beispiel)
-3. **Live-Coding:** Demo mit Scikit-Learn
+1. **Namensbedeutung & Prinzip**
+2. **Theorie & Logik**
+3. **Anwendungsgebiet:** Preisprognosen (RAM-Beispiel)
+4. **Live-Coding:** Demo mit Scikit-Learn
 
 ---
 
-## 1. Theorie & Logik {auto-animate="true"}
+## Namensbedeutung & Prinzip
+
+- **Gradient:** Gradient Descent (Minimierung des Fehlers)
+- **Boosting:** Fehlerkorrektur durch sequentielle Modelle
+
+**Gradient Descent**: 
+
+- Minimiert den Fehler, indem es in Richtung des steilsten Abstiegs geht.
+$$
+\theta_{t+1} = \theta_t - \eta \cdot \nabla_\theta L(\theta)
+$$
+
+## <img src="https://editor.analyticsvidhya.com/uploads/26393ezgif.com-gif-maker%20(5).gif" width="1000" height="760">
+
+## Theorie & Logik {auto-animate="true"}
 
 **Das Prinzip: Sequentielles Lernen aus Fehlern**
 
-Gradient Boosting ist kein einzelnes, massives Modell, sondern ein **Ensemble** aus vielen kleinen Modellen (Entscheidungsbäumen).
+Ensemble aus vielen kleinen Modellen (Entscheidungsbäumen).
 
-* Jeder neue Baum wird trainiert, um die **Fehler (Residuen)** der vorherigen Bäume zu korrigieren.
-* Das Team arbeitet nacheinander, nicht gleichzeitig.
+* Residuen der vorherigen Bäume werden im nächsten Baum korrigiert.
+* Iterativ
 
 ---
 
-## Die Minigolf-Analogie ⛳
+## Anschauliche Erklärung: Golfen
 
-* **Schlag 1 (Start):** Du schlägst in Richtung Loch, verfehlst aber um 2 Meter. *(Erster Fehler)*
-* **Schlag 2 (Baum 1):** Dein Ziel ist nicht mehr das Loch, sondern exakt diese 2 Meter zu überwinden. Du verfehlst um 20 cm.
+* **Schlag 1 (Start):** Loch verfehlt um 2 Meter.
+* **Schlag 2 (Baum 1):** Ein neuer Spieler korrigiert die 2 Meter, aber verfehlt um 20 cm.
 * **Schlag 3 (Baum 2):** Ein neuer Spieler korrigiert nur noch die 20 cm.
 
-**Ergebnis:** Die Summe aller kleinen Korrekturen führt exakt ins Ziel!
+**Ergebnis:** Ball ist letztendlich im Loch.
 
 ---
 
-## Warum ist es der "Goldstandard"? 🏆
+## Warum Goldstandard?
 
 - **Hohe Präzision:** Erkennt komplexe, nicht-lineare Muster.
-- **Robustheit:** Kommt gut mit Ausreißern klar.
+- **Robustheit:** Ausreißermanagement durch sequentielle Fehlerkorrektur.
 - **Flexibilität:** Keine aufwändige Daten-Skalierung nötig.
 - Übertrifft Deep Learning bei **tabellarischen Daten** fast immer!
 
 ---
 
-## 2. Praxisbeispiel: RAM-Preise 🖥️
+## Praxisbeispiel: RAM-Preise
 
 Wie gewichtet der Algorithmus die Hardware-Specs?
 
