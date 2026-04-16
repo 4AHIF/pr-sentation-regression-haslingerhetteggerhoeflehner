@@ -16,10 +16,8 @@ format:
 3. **Anwendungsgebiet:** Preisprognosen (RAM-Beispiel)
 4. **Live-Coding:** Demo mit Scikit-Learn
 
-Gradient Boosting ist ein **Ensemble-Verfahren**. Statt eines komplexen Modells nutzen wir viele "Weak Learners" (einfache Entscheidungsbäume).
 
 ## Namensbedeutung & Prinzip
-
 - **Gradient:** Gradient Descent (Minimierung des Fehlers)
 - **Boosting:** Fehlerkorrektur durch sequentielle Modelle
 
@@ -34,7 +32,7 @@ $$
 
 ## Theorie & Logik {auto-animate="true"}
 
-Ensemble aus vielen kleinen Modellen (Entscheidungsbäumen).
+Gradient Boosting ist ein **Ensemble-Verfahren**. Statt eines komplexen Modells nutzen wir viele "Weak Learners" (einfache Entscheidungsbäume).
 
 * Residuen der vorherigen Bäume werden im nächsten Baum korrigiert.
 * Iterativ
@@ -51,25 +49,16 @@ Ensemble aus vielen kleinen Modellen (Entscheidungsbäumen).
 
 ---
 
-## Warum Goldstandard?
-
-- **Hohe Präzision:** Erkennt komplexe, nicht-lineare Muster.
-- **Robustheit:** Ausreißermanagement durch sequentielle Fehlerkorrektur.
-- **Flexibilität:** Keine aufwändige Daten-Skalierung nötig.
-- Übertrifft Deep Learning bei **tabellarischen Daten** fast immer!
-
----
-
-## 1.1 Die Mathematik
+## Die Mathematik
 Wir minimieren eine **Verlustfunktion** $L(y, F(x))$ durch Gradientenabstieg im Funktionsraum.
 
-### 1. Initialisierung
+### Initialisierung
 Start mit dem Mittelwert:
 $$F_0(x) = \arg\min_\gamma \sum_{i=1}^n L(y_i, \gamma)$$
 
 ---
 
-### 2. Der iterative Schritt
+### Der iterative Schritt
 Für jeden Baum $m$ berechnen wir den **negativen Gradienten**:
 $$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F(x)=F_{m-1}(x)}$$
 
@@ -86,7 +75,7 @@ Kein Skalieren von Daten (Normalization/Scaling) nötig. Ideal für tabellarisch
 
 ---
 
-## 2. Praxis: RAM-Preise 🖥️
+## Praxis: RAM-Preise 🖥️
 
 Wie lernt das Modell die Preisgestaltung?
 
@@ -98,7 +87,7 @@ Wie lernt das Modell die Preisgestaltung?
 
 ---
 
-## 3. Live-Coding: Scikit-Learn
+## Live-Coding: Scikit-Learn
 
 ```python
 import pandas as pd
