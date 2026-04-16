@@ -8,13 +8,14 @@ format:
     slide-number: true
 ---
 
-## 1. Theorie & Logik
+## Inhalt  
 
-### Das Prinzip: Sequentielles Lernen
 1. **Namensbedeutung & Prinzip**
 2. **Theorie & Logik**
 3. **Anwendungsgebiet:** Preisprognosen (RAM-Beispiel)
 4. **Live-Coding:** Demo mit Scikit-Learn
+5. **Wann wird es angewendet?**
+6. **Worauf muss man achten?**
 
 
 ## Namensbedeutung & Prinzip
@@ -62,7 +63,7 @@ $$F_0(x) = \arg\min_\gamma \sum_{i=1}^n L(y_i, \gamma)$$
 Für jeden Baum $m$ berechnen wir den **negativen Gradienten**:
 $$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F(x)=F_{m-1}(x)}$$
 
-## Warum "Goldstandard"? 🏆
+## Warum "Goldstandard"? 
 
 ### Präzision
 Erkennt hochkomplexe, nicht-lineare Zusammenhänge, die linearen Modellen entgehen.
@@ -75,7 +76,7 @@ Kein Skalieren von Daten (Normalization/Scaling) nötig. Ideal für tabellarisch
 
 ---
 
-## Praxis: RAM-Preise 🖥️
+## Praxis: RAM-Preise 
 
 Wie lernt das Modell die Preisgestaltung?
 
@@ -112,3 +113,30 @@ neuer_ram = [[32, 5200, 5, 1]]
 preis = model.predict(neuer_ram)
 print(f"Preis: {preis[0]:.2f}€")
 ```
+
+## Wann wendet man es an? 
+
+**Sweet Spot:** 
+
+* **Tabellarische Daten:** SQL-Datenbanken, CSV, Excel
+* **Komplexe Interaktionen:** Wenn Variablen stark voneinander abhängen (z.B. Alter + Einkommen + Wohnort).
+
+**Typische Beispiele:** 
+
+* **Finanzwesen:** Kreditrisiko-Scoring
+* **E-Commerce:**dynamische Preisgestaltung.
+* **Medizin:** Vorhersage von Krankheitsverläufen 
+
+---
+
+## Worauf muss man achten? 
+
+* **Hyperparameter-Tuning ist Pflicht:**
+  * **Lernrate** : Zu hoch → übers Ziel hinaus, zu niedrig → langsames Lernen. 
+  * **Baumtiefe:** Bäume müssen flach bleiben.
+* **Gefahr des Overfittings** 
+* **Falsche Datenformate:** Nicht geignet für unstrukturierte Daten (Bilder)
+
+---
+
+## Danke für eure Aufmerksamkeit! 
