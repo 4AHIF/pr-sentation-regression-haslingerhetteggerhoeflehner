@@ -54,7 +54,7 @@ Gradient Boosting ist ein **Ensemble-Verfahren**. Statt eines komplexen Modells 
 Wir minimieren eine **Verlustfunktion** $L(y, F(x))$ durch Gradientenabstieg im Funktionsraum.
 
 ### Initialisierung
-Start mit dem Mittelwert:
+Suche nach dem optimalen Startwert
 $$F_0(x) = \arg\min_\gamma \sum_{i=1}^n L(y_i, \gamma)$$
 
 ---
@@ -62,6 +62,20 @@ $$F_0(x) = \arg\min_\gamma \sum_{i=1}^n L(y_i, \gamma)$$
 ### Der iterative Schritt
 Für jeden Baum $m$ berechnen wir den **negativen Gradienten**:
 $$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F(x)=F_{m-1}(x)}$$
+
+---
+
+### Die Modell-Aktualisierung
+Nachdem ein neuer Baum $h_m(x)$ auf die Pseudo-Residuen trainiert wurde, wird das Gesamtmodell angepasst:
+
+$$F_m(x) = F_{m-1}(x) + \nu \cdot h_m(x)$$
+
+
+
+
+
+
+
 
 ## Warum "Goldstandard"? 
 
