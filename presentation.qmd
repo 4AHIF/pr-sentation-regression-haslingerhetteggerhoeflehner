@@ -30,16 +30,30 @@ $$
 \theta_{t+1} = \theta_t - \eta \cdot \nabla_\theta L(\theta)
 $$
 
-## <img src="https://editor.analyticsvidhya.com/uploads/26393ezgif.com-gif-maker%20(5).gif" width="1000" height="760">
+---
+
+## Visualisierung des Lernprozesses
+
+<img src="https://editor.analyticsvidhya.com/uploads/26393ezgif.com-gif-maker%20(5).gif" width="1000" height="600">
+
+---
 
 ## Theorie & Logik {auto-animate="true"}
 
 **Das Prinzip: Sequentielles Lernen aus Fehlern**
 
+::: {.columns}
+::: {.column width="50%"}
+**Ensemble-Methodik**
 Ensemble aus vielen kleinen Modellen (Entscheidungsbäumen).
+:::
 
+::: {.column width="50%"}
+**Iterative Korrektur**
 * Residuen der vorherigen Bäume werden im nächsten Baum korrigiert.
-* Iterativ
+* Schrittweise Annäherung an das Optimum.
+:::
+:::
 
 ---
 
@@ -79,6 +93,36 @@ Wie gewichtet der Algorithmus die Hardware-Specs?
 In diesem Schritt trainieren wir den Regressor und sagen den Preis für ein neues Modul voraus:
 
 ```{.python code-line-numbers="|1-11|13-14|16-20"}
+## Die Mathematik
+Wir minimieren eine **Verlustfunktion** $L(y, F(x))$ durch Gradientenabstieg im Funktionsraum.
+
+### Initialisierung
+Start mit dem Mittelwert:
+$$F_0(x) = \arg\min_\gamma \sum_{i=1}^n L(y_i, \gamma)$$
+
+---
+
+### Der iterative Schritt
+Für jeden Baum $m$ berechnen wir den **negativen Gradienten**:
+$$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F(x)=F_{m-1}(x)}$$
+
+---
+
+## Praxis: RAM-Preise 🖥️
+
+Wie lernt das Modell die Preisgestaltung?
+
+* **Kapazität:** Basis-Preis-Treiber (8GB vs 64GB).
+* **Generation:** Strukturelle Brüche (DDR4 vs DDR5).
+* **Features:** Interaktionseffekte (RGB-Beleuchtung + High-End Takt).
+
+> **Insight:** Während lineare Regression bei "Sprüngen" (DDR4 -> DDR5) scheitert, erkennt Boosting diese Schwellenwerte perfekt.
+
+---
+
+## Live-Coding: Scikit-Learn
+
+```python
 import pandas as pd
 from sklearn.ensemble import HistGradientBoostingRegressor
 
@@ -99,3 +143,4 @@ preis = model.predict(neuer_ram)
 
 print(f"Prognostizierter Preis: {preis[0]:.2f} €")
 ```
+print(f"Voraussichtlicher Preis: {preis[0]:.2f}€")
