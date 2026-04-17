@@ -99,7 +99,7 @@ Wie lernt das Modell die Preisgestaltung?
 * **Generation:** Strukturelle Brüche (DDR4 vs DDR5).
 * **Features:** Interaktionseffekte (RGB-Beleuchtung + High-End Takt).
 
-> **Insight:** Während lineare Regression bei "Sprüngen" (DDR4 -> DDR5) scheitert, erkennt Boosting diese Schwellenwerte perfekt.
+Während lineare Regression bei "Sprüngen" (DDR4 -> DDR5) scheitert, erkennt Boosting diese Schwellenwerte perfekt.
 
 ---
 
@@ -107,7 +107,7 @@ Wie lernt das Modell die Preisgestaltung?
 
 ```{.python code-line-numbers="4-13|15-16|18-21"}
 import pandas as pd
-from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.ensemble import GradientBoostingRegressor
 
 # Unsere Hardware-Datenbank
 data = {
