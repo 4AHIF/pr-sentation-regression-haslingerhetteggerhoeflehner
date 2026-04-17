@@ -121,7 +121,8 @@ df = pd.DataFrame(data)
 X, y = df.drop('preis', axis=1), df['preis']
 
 # Training
-model = HistGradientBoostingRegressor(max_iter=100).fit(X, y)
+model = GradientBoostingRegressor(max_iter=100).fit(X, y)
+#model = HistGradientBoostingRegressor(max_iter=100).fit(X, y)
 
 # Prognose
 neuer_ram = [[32, 5200, 5, 1]]
